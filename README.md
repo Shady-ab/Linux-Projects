@@ -1,5 +1,5 @@
 Shady Aburaya       שאדי אבוריא
-Abed Watta       עבד אלקאדר ותד
+Abed Wattad       עבד אלקאדר ותד
 Mohamed Abu Foul  מוחמד אבו פול
 
 ####
