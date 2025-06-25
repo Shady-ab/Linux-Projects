@@ -15,9 +15,9 @@
 char encrypted_password[MAX_PASSWORD_LEN];
 char original_password[MAX_PASSWORD_LEN];
 char decrypted_password[MAX_PASSWORD_LEN] = "";
-int password_length = 16;
-int num_decrypters = 4;
-int timeout = 10;
+int password_length;
+int num_decrypters;
+int timeout;
 int terminate = 0;
 int new_password_ready = 0;
 int password_decrypted = 0;
@@ -154,15 +154,22 @@ int main(int argc, char *argv[]) {
     };
 
     int opt;
+    int n_flag = 0, l_flag = 0, t_flag = 0;
     while ((opt = getopt_long(argc, argv, "n:l:t:", long_options, NULL)) != -1) {
         switch (opt) {
-            case 'n': num_decrypters = atoi(optarg); break;
-            case 'l': password_length = atoi(optarg); break;
-            case 't': timeout = atoi(optarg); break;
+            case 'n': num_decrypters = atoi(optarg); n_flag = 1; break;
+            case 'l': password_length = atoi(optarg); l_flag = 1; break;
+            case 't': timeout = atoi(optarg); t_flag = 1; break;
             default:
-                fprintf(stderr, "Usage: %s -n num -l length [-t timeout]\n", argv[0]);
+                fprintf(stderr, "Usage: %s -n num -l length -t timeout\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
+    }
+
+    if (!n_flag || !l_flag || !t_flag) {
+        fprintf(stderr, "Error: All options -n, -l, and -t are required.\n");
+        fprintf(stderr, "Usage: %s -n num -l length -t timeout\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 
     pthread_t encrypter;
@@ -183,4 +190,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
